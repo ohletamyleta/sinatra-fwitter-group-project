@@ -51,9 +51,9 @@ get '/tweets/:id/edit' do
   if !Helpers.is_logged_in?(session)
     redirect to '/login'
   end
-    @tweet = Tweet.find(params[:id])
+  @user = Helpers.current_user(session)
+  @tweet = Tweet.find(params[:id])
     erb :'/tweets/edit_tweet'
-
 end
 
 patch '/tweets/:id' do
