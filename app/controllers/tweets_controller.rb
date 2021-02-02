@@ -12,6 +12,9 @@ class TweetsController < ApplicationController
   end
 
 get '/tweets/new' do
+  if !Helpers.is_logged_in?(session)
+    redirect to '/login'
+  end
   @user = Helpers.current_user(session)
   if @user.nil?
     redirect to '/login'
@@ -20,9 +23,21 @@ get '/tweets/new' do
   end
 end
 
-# post '/tweets' do 
+post '/tweets' do 
+  if !Helpers.is_logged_in?(session)
+    redirect to '/login'
+  end
+   
+  @user = Helpers.current_user(session)
+  if params[:content].empty?
+    redirect to '/tweets/new'
+  else
+    @user.tweets.build({:content => params[:content], :user_id => params[:user_id]})
+    @user.save
+  end
+  redirect to '/tweets'
+end
 
-# end 
 
 # get '/tweets/:id' do
 
