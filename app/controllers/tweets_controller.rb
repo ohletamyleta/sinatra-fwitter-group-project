@@ -39,9 +39,13 @@ post '/tweets' do
 end
 
 
-# get '/tweets/:id' do
-
-# end
+get '/tweets/:id' do
+  if !Helpers.is_logged_in?(session)
+    redirect to '/login'
+  end
+    @tweet = Tweet.find(params[:id])
+    erb :'/tweets/show'
+end
 
 # get '/tweets/:id/edit' do
 
