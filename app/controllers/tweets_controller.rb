@@ -44,20 +44,43 @@ get '/tweets/:id' do
     redirect to '/login'
   end
     @tweet = Tweet.find(params[:id])
-    erb :'/tweets/show'
+    erb :'/tweets/show_tweet'
 end
 
-# get '/tweets/:id/edit' do
+get '/tweets/:id/edit' do
+  if !Helpers.is_logged_in?(session)
+    redirect to '/login'
+  end
+    @tweet = Tweet.find(params[:id])
+    erb :'/tweets/edit_tweet'
 
-# end
+end
 
-# patch '/tweets/:id' do
+patch '/tweets/:id' do
+  if !Helpers.is_logged_in?(session)
+    redirect to '/login'
+  end
+  @user = Helpers.current_user(session)
+  @tweet = Tweet.find(params[:id])
 
-# end
+  if params[:tweet][:content].empty?
+    redirect to "/tweets/#{@tweet.id}/edit"
+  end
 
-# delete '/tweets/:id/delete' do
+  @tweet.update(params[:tweet])
+  @tweet.save
+  redirect to "/tweets/#{@tweet.id}"
+end
 
-# end
+delete '/tweets/:id/delete' do
+  if !Helpers.is_logged_in?(session)
+    redirect to '/login'
+  end
+  @user = Helpers.current_user(session)
+  @tweet = Tweet.find(params[:id])
+  @tweet.delete
+  redirect to '/tweets'
+end
 
 
 end
