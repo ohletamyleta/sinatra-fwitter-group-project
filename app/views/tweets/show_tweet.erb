@@ -1,7 +1,7 @@
   <h1> You tweeted:</h1>
     <h2><%= @tweet.content %></h2><br>
 
-    <a href="/tweets/<%= @tweet.id %>/edit"><button>Edit Tweet</button></a>
+    <a href="/tweets/<%= @tweet.id %>/edit">Edit Tweet</a>
 
     <form method="POST" action="/tweets/<%= @tweet.id %>/delete">
       <input type="submit" value="Delete Tweet">
